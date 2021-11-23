@@ -1,6 +1,9 @@
 import java.util.*;
 
 class MinimumWindowSubstring {
+    public static void main(String[] args) {
+    System.out.println(findSubstring("aabdec","abc"));
+    }
     public static String findSubstring(String str, String pattern) {
         HashMap<Character,Integer> _pattern = new HashMap<>();
 
@@ -9,6 +12,9 @@ class MinimumWindowSubstring {
         }
 
         int matched = 0;
+        int minStrLength = Integer.MAX_VALUE;
+        String substr = "";
+
         for(int i=0,j=0;j<str.length();j++) {
             char key = str.charAt(j);
             if(_pattern.containsKey(key)) {
@@ -16,13 +22,20 @@ class MinimumWindowSubstring {
                 if(_pattern.get(key)==0) matched++;
             }
 
+            if(matched== _pattern.size()) {
+                if(j-i+1 < minStrLength) {
+                    minStrLength = j-i+1;
+                    substr = str.substring(i+1,j+1);
+                }
+            }
+
             while(matched >= _pattern.size()) {
                 key = str.charAt(i);
                 _pattern.put(key,_pattern.getOrDefault(key,0)+1);
                 i++;
-
             }
+
         }
-        return "";
+        return substr;
     }
 }
