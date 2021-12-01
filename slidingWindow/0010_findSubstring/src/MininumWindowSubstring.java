@@ -32,7 +32,7 @@ class MinimumWindowSubstring {
                 }
             }
 
-            while(i < str.length() && matched >= _pattern.size()) {
+            while(matched >= _pattern.size()) {
                 key = str.charAt(i);
                 _pattern.put(key,_pattern.getOrDefault(key,0)+1);
                 if(_pattern.get(key)==0) matched--;
