@@ -10,36 +10,28 @@ class TreeNode {
     }
 };
 
-class ZigzagTraversal {
-    public static List<List<Integer>> traverse(TreeNode root) {
-        List<List<Integer>> result = new ArrayList<List<Integer>>();
-
+class LevelOrderSuccessor {
+    public static TreeNode findSuccessor(TreeNode root, int key) {
+        // TODO: Write your code here
         Deque<TreeNode> cache = new ArrayDeque<>();
         cache.add(root);
-        boolean leftToRight = true;
 
         while(!cache.isEmpty()) {
             int sz = cache.size();
 
-            List<Integer> level = new LinkedList<>();
-            for(int i=0;i<sz;i++) {
-                TreeNode node = cache.poll();
 
-                if(leftToRight) level.add(node.val);
-                else level.add(0,node.val);
+            for(int i=0;i<sz;i++) {
+
+                TreeNode node = cache.poll();
 
                 if(node.left!=null) cache.offer(node.left);
                 if(node.right!=null) cache.offer(node.right);
+
+                if(node.val==key) return cache.poll();
             }
-
-            result.add(level);
-
-            leftToRight = !leftToRight;
         }
 
-        return result;
-
-
+        return null;
     }
 
     public static void main(String[] args) {
@@ -49,9 +41,11 @@ class ZigzagTraversal {
         root.left.left = new TreeNode(9);
         root.right.left = new TreeNode(10);
         root.right.right = new TreeNode(5);
-        root.right.left.left = new TreeNode(20);
-        root.right.left.right = new TreeNode(17);
-        List<List<Integer>> result = ZigzagTraversal.traverse(root);
-        System.out.println("Zigzag traversal: " + result);
+        TreeNode result = LevelOrderSuccessor.findSuccessor(root, 12);
+        if (result != null)
+            System.out.println(result.val + " ");
+        result = LevelOrderSuccessor.findSuccessor(root, 9);
+        if (result != null)
+            System.out.println(result.val + " ");
     }
 }
