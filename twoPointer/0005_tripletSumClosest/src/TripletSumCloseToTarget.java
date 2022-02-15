@@ -8,11 +8,10 @@ class TripletSumCloseToTarget {
     }
 
     public static int searchTriplet(int[] arr, int targetSum) {
+
         Arrays.sort(arr);
 
-//        int[]   t;
-        int     t_dist_min  = Integer.MAX_VALUE;
-        int     t_sum_min   = Integer.MAX_VALUE;
+        int best = Integer.MAX_VALUE;
 
         for(int i = 0; i < arr.length-2; i++) {
 
@@ -21,24 +20,25 @@ class TripletSumCloseToTarget {
 
             int l = i + 1, r = arr.length - 1;
 
+
             while(l < r) {
-                int t_sum_cur = arr[i] + arr[l] + arr[r];
-                int t_dist_cur = Math.abs(targetSum - t_sum_cur);
+//                int t_sum_cur = arr[i] + arr[l] + arr[r];
+//                int t_dist_cur = Math.abs(targetSum - t_sum_cur);
+                int t_dist_cur = targetSum - arr[i] - arr[l] - arr[r];
 
-                if(t_sum_cur==targetSum) return t_sum_cur;
-                if(t_dist_cur < t_dist_min && t_sum_cur < t_sum_min) {
-                    t_dist_min = t_dist_cur;
-                    t_sum_min = t_sum_cur;
-//                    t = new int[] {arr[i],arr[l],arr[r]};
-                }
+                if(t_dist_cur==0) return targetSum;
 
-                if(t_sum_cur < targetSum) l++;
-                if(t_sum_cur > targetSum) r--;
+                if(     Math.abs(targetSum) <  Math.abs(best) ||
+                        (Math.abs(targetSum)==Math.abs(best) && targetSum > best) )
+                    best = targetSum;
+
+                if(t_dist_cur > 0) l++;
+                if(t_dist_cur < 0) r--;
 
             }
 
         }
 
-        return t_sum_min;
+        return targetSum - best;
     }
 }

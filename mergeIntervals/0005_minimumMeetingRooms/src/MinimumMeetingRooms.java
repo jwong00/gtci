@@ -24,8 +24,21 @@ class MinimumMeetingRooms {
 
         System.out.println(meetings);
 
-        // TODO: Write your code here
-        return -1;
+       int minRooms = 0;
+
+       PriorityQueue<Meeting> heap = new PriorityQueue<>(meetings.size(),(a,b)->Integer.compare(a.end,b.end));
+
+       for(Meeting m :meetings) {
+           while(!heap.isEmpty() && m.start >= heap.peek().end) {
+                heap.poll();
+           }
+           heap.offer(m);
+           minRooms = Math.max(minRooms,heap.size());
+       }
+
+
+
+        return minRooms;
     }
 
     public static void main(String[] args) {
